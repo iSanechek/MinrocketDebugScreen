@@ -11,7 +11,6 @@ import org.koin.dsl.module
 
 val DEBUG_FEATURE_CONFIG_PREFS = named("DEBUG_FEATURE_CONFIG_PREFS")
 val DEBUG_FEATURE_CONFIG_REPOSITORY = named("DEBUG_FEATURE_CONFIG_REPOSITORY")
-val RELEASE_FEATURE_CONFIG_REPOSITORY = named("RELEASE_FEATURE_CONFIG_REPOSITORY")
 
 actual fun platformModule(): Module = module {
 
@@ -24,10 +23,6 @@ actual fun platformModule(): Module = module {
 
     single<FeaturesStateRepository>(DEBUG_FEATURE_CONFIG_REPOSITORY) {
         DebugFeaturesStateRepositoryImpl(preferences = get(DEBUG_FEATURE_CONFIG_PREFS))
-    }
-
-    single<FeaturesStateRepository>(RELEASE_FEATURE_CONFIG_REPOSITORY) {
-        ReleaseFeaturesStateRepositoryImpl()
     }
 
 }

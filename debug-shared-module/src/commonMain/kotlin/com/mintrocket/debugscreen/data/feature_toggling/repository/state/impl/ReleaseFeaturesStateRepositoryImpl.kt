@@ -7,6 +7,6 @@ class ReleaseFeaturesStateRepositoryImpl : FeaturesStateRepository {
     override fun getState(key: String): FeatureEnabledState = FeatureEnabledState.DEFAULT
 
     override fun setState(key: String, state: FeatureEnabledState) {
-        // No op
+        // no op
     }
 }
