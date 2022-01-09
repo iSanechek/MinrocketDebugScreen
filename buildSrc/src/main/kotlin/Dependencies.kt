@@ -38,7 +38,8 @@ object Libs {
         const val runtime = "androidx.compose.runtime:runtime:${Versions.composeVersion}"
         const val ui = "androidx.compose.ui:ui:${Versions.composeVersion}"
         const val foundation = "androidx.compose.foundation:foundation:${Versions.composeVersion}"
-        const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.composeVersion}"
+        const val foundationLayout =
+            "androidx.compose.foundation:foundation-layout:${Versions.composeVersion}"
         const val material = "androidx.compose.material:material:${Versions.composeVersion}"
         const val animation = "androidx.compose.animation:animation:${Versions.composeVersion}"
         const val tooling = "androidx.compose.ui:ui-tooling:${Versions.composeVersion}"
@@ -46,20 +47,16 @@ object Libs {
 
     // Deps for screen module
     val screenLibs = listOf(
-        with(AndroidX) {
-            appCompat
-            coreKtx
-        },
-        with(Compose) {
-            activity
-            runtime
-            ui
-            foundation
-            foundationLayout
-            material
-            animation
-            tooling
-        },
+        AndroidX.appCompat,
+        AndroidX.coreKtx,
+        Compose.activity,
+        Compose.runtime,
+        Compose.ui,
+        Compose.foundation,
+        Compose.foundationLayout,
+        Compose.material,
+        Compose.animation,
+        Compose.tooling,
         Material.material,
         Koin.android
     )

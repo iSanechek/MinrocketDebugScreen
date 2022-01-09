@@ -50,6 +50,7 @@ dependencies {
     Libs.screenLibs.forEach(::implementation)
 
     testImplementation(Libs.Testing.junit)
-    androidTestImplementation(Libs.Testing.junitExt)
+    println("Hello ${Libs.Testing.junitExt}")
+//    androidTestImplementation(Libs.Testing.junitExt)
     androidTestImplementation(Libs.Testing.espresso)
 }
