@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ToggleScreenComposition() {
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Expanded)
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -29,7 +29,9 @@ fun ToggleScreenComposition() {
         val testItems = listOf(1, 2, 3, 4, 5)
         LazyColumn(modifier = Modifier.fillMaxSize(), content = {
             items(testItems) {
-                ToggleListItemComposition()
+                ToggleListItemComposition {
+                    coroutineScope.launch { bottomSheetScaffoldState.bottomSheetState.expand() }
+                }
             }
         })
     }

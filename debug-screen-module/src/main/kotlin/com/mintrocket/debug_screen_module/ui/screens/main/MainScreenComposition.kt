@@ -1,6 +1,5 @@
 package com.mintrocket.debug_screen_module.ui.screens.main
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
