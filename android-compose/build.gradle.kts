@@ -1,29 +1,19 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
-    id("kotlin-parcelize")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
     compileSdk = 31
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 23
         targetSdk = 31
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -38,21 +28,17 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.1.0-rc02"
     }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-    implementation(project(":debug-shared-module"))
-    implementation(project(":modo-render-android-compose"))
-    implementation(project(":android-compose"))
+    implementation(Libs.Koin.android)
 
-    Libs.screenLibs.forEach(::implementation)
+    implementation(Libs.Compose.runtime)
+    implementation(Libs.Compose.ui)
+    implementation(Libs.AndroidX.viewModelCompose)
 
     testImplementation(Libs.Testing.junit)
-    androidTestImplementation(Libs.Testing.junitExt)
     androidTestImplementation(Libs.Testing.espresso)
+    androidTestImplementation(Libs.Testing.junitExt)
+
 }

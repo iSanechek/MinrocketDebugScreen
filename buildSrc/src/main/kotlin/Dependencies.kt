@@ -9,13 +9,15 @@ object Versions {
     internal const val junitVersion = "4.13.2"
     internal const val junitExtVersion = "1.1.3"
     internal const val espressoVersion = "3.4.0"
+    internal const val modoVersion = "0.6.2"
+    internal const val lifecycleVersion = "2.4.0"
 }
 
 object Libs {
 
     object Testing {
         const val junit = "junit:junit:${Versions.junitVersion}"
-        const val junitExt = "androidx.test.ext:${Versions.junitExtVersion}"
+        const val junitExt = "androidx.test.ext:junit:${Versions.junitExtVersion}"
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoVersion}"
     }
 
@@ -27,10 +29,16 @@ object Libs {
     object AndroidX {
         const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
         const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
+        const val lifecycleKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleVersion}"
+        const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycleVersion}"
     }
 
     object Material {
         const val material = "com.google.android.material:material:${Versions.materialVersion}"
+    }
+
+    object Modo {
+        const val core = "com.github.terrakok:modo:${Versions.modoVersion}"
     }
 
     object Compose {
@@ -49,6 +57,7 @@ object Libs {
     val screenLibs = listOf(
         AndroidX.appCompat,
         AndroidX.coreKtx,
+        AndroidX.lifecycleKtx,
         Compose.activity,
         Compose.runtime,
         Compose.ui,
