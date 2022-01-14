@@ -22,7 +22,7 @@ fun MainScreenComposition(
         })
     }) {
         when(vm.navState.collectAsState().value) {
-            BottomNavItem.ToggleScreen -> ToggleScreenComposition()
+            BottomNavItem.ToggleScreen -> ToggleScreenComposition(it)
             BottomNavItem.EnvironmentScreen -> EnvironmentScreenComposition()
             BottomNavItem.ConsoleScreen -> ConsoleScreenComposition()
         }
