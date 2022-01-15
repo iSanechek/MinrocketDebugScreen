@@ -2,6 +2,7 @@ package com.mintrocket.debug_screen_module.ui.screens.toggle
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mintrocket.debugscreen.data.feature_toggling.FeatureEnabledState
 import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
 import com.mintrocket.debugscreen.data.feature_toggling.provider.FeatureConfigsProvider
 import com.mintrocket.debugscreen.data.feature_toggling.repository.state.FeaturesStateRepository
@@ -22,6 +23,10 @@ class ToggleViewModel(
         viewModelScope.launch {
             _featureToggles.value = toggleRepo.getToggles()
         }
+    }
+
+    fun setNewState(key: String, state: FeatureEnabledState) {
+
     }
 
 }

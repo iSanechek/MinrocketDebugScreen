@@ -21,11 +21,16 @@ import com.mintrocket.debugscreen.data.feature_toggling.FeatureEnabledState
 import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
 
 @Composable
-private fun IconStateBox(state: FeatureEnabledState) {
+private fun IconStateBox(state: FeatureEnabledState, enable: Boolean) {
+    val colorBg = if (enable) Color.Green else when(state) {
+        FeatureEnabledState.DEFAULT -> Color.LightGray
+        FeatureEnabledState.DISABLED -> Color.Red
+        FeatureEnabledState.ENABLED -> Color.Green
+    }
     Card(
         modifier = Modifier
             .size(60.dp),
-        backgroundColor = Color.Green,
+        backgroundColor = colorBg,
         shape = RoundedCornerShape(16.dp)
     ) {
         Icon(
@@ -49,18 +54,20 @@ private fun TitleAndSubtitleBox(modifier: Modifier, name: String, enable: Boolea
             text = name,
             style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
         )
-        Text(text = "Disable $enable")
+        val stateText = if (enable) "Enable" else "Disable"
+        val textColor = if (enable) Color.Green else Color.Red
+        Text(text = "Local state $stateText", color = textColor)
     }
 }
 
 @Composable
-fun ToggleListItemComposition(featureToggle: ItemDebugFeatureToggle, onClick: () -> Unit) {
+fun ToggleListItemComposition(featureToggle: ItemDebugFeatureToggle, onClick: (ItemDebugFeatureToggle) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(90.dp)
             .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 2.dp)
-            .clickable { onClick.invoke() },
+            .clickable { onClick.invoke(featureToggle) },
         elevation = 2.dp
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -70,7 +77,7 @@ fun ToggleListItemComposition(featureToggle: ItemDebugFeatureToggle, onClick: ()
                 enable = featureToggle.featureLocalEnabled
             )
             Spacer(modifier = Modifier.width(16.dp))
-            IconStateBox(featureToggle.featureState)
+            IconStateBox(featureToggle.featureState, featureToggle.featureLocalEnabled)
             Spacer(modifier = Modifier.width(16.dp))
         }
     }

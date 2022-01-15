@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mintrocket.debug_screen_module.R
+import com.mintrocket.debugscreen.data.feature_toggling.FeatureEnabledState
+import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
 
 @Composable
 private fun NavigationBox(onClick: () -> Unit) {
@@ -40,29 +42,32 @@ private fun NavigationBox(onClick: () -> Unit) {
 }
 
 @Composable
-private fun TitleAndStateBox() {
+private fun TitleAndStateBox(model: ItemDebugFeatureToggle?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp, bottom = 2.dp)
     ) {
         Text(
-            text = "Feature name",
+            text = model?.name ?: "",
             style = TextStyle(color = Color.Black, fontSize = 24.sp, fontWeight = FontWeight.Bold)
         )
+        val stateText = if (model?.featureLocalEnabled == true) "Enable" else "Disable"
+        val stateColor = if (model?.featureLocalEnabled == true) Color.Green else Color.Red
+
         Text(
-            text = "Disable"
+            text = "Local state $stateText", color = stateColor
         )
     }
 }
 
 @Composable
-private fun SelectorButton(modifier: Modifier) {
+private fun SelectorButton(modifier: Modifier, title: String, colorState: Color) {
     Box(
         modifier = modifier
             .requiredHeight(80.dp)
             .padding(8.dp)
-            .background(color = Color.Gray, shape = RoundedCornerShape(8.dp))
+            .background(color = colorState, shape = RoundedCornerShape(8.dp))
             .clickable { },
         contentAlignment = Alignment.Center
     ) {
@@ -75,20 +80,40 @@ private fun SelectorButton(modifier: Modifier) {
 }
 
 @Composable
-private fun SelectorStateBox() {
+private fun SelectorStateBox(model: ItemDebugFeatureToggle?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp),
         horizontalArrangement = Arrangement.Center
     ) {
-        repeat(3) {
-            SelectorButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
+        SelectorButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            title = "",
+            colorState = Color.Green.copy(
+                alpha = if (model?.featureState == FeatureEnabledState.ENABLED) 1.0f else .5f
             )
-        }
+        )
+        SelectorButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            title = "",
+            colorState = Color.Red.copy(
+                alpha = if (model?.featureState == FeatureEnabledState.DISABLED) 1.0f else .5f
+            )
+        )
+        SelectorButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            title = "",
+            colorState = Color.Gray.copy(
+                alpha = if (model?.featureState == FeatureEnabledState.DEFAULT) 1.0f else .5f
+            )
+        )
     }
 }
 
@@ -100,12 +125,12 @@ private fun LastUpdateInfoBox() {
 }
 
 @Composable
-fun ToggleBottomSheetComposition(close: () -> Unit) {
+fun ToggleBottomSheetComposition(model: ItemDebugFeatureToggle?, close: () -> Unit) {
     Column(Modifier.fillMaxWidth()) {
         NavigationBox(close)
-        TitleAndStateBox()
+        TitleAndStateBox(model)
         Spacer(modifier = Modifier.height(24.dp))
-        SelectorStateBox()
+        SelectorStateBox(model)
         Spacer(modifier = Modifier.height(24.dp))
         LastUpdateInfoBox()
         Spacer(modifier = Modifier.height(64.dp)) // need fix
@@ -115,7 +140,7 @@ fun ToggleBottomSheetComposition(close: () -> Unit) {
 @Preview
 @Composable
 fun PreviewToggleBottomSheetComposition() {
-    ToggleBottomSheetComposition {
+    ToggleBottomSheetComposition(null) {
 
     }
 }
