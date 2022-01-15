@@ -8,11 +8,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 private fun Toolbar() {
@@ -23,7 +27,8 @@ private fun Toolbar() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun Content(coroutineScope: CoroutineScope, bottomState: ModalBottomSheetState) {
+private fun Content(toggles: StateFlow<List<ItemDebugFeatureToggle>>, coroutineScope: CoroutineScope, bottomState: ModalBottomSheetState) {
+    val data = toggles.collectAsState()
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         Toolbar()
     }) {
@@ -31,8 +36,8 @@ private fun Content(coroutineScope: CoroutineScope, bottomState: ModalBottomShee
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(it), content = {
-            items(testItems) {
-                ToggleListItemComposition {
+            items(data.value) { feature ->
+                ToggleListItemComposition(feature) {
                     coroutineScope.launch { bottomState.show() }
                 }
             }
@@ -43,6 +48,7 @@ private fun Content(coroutineScope: CoroutineScope, bottomState: ModalBottomShee
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ToggleScreenComposition(paddingValues: PaddingValues) {
+    val vm = getViewModel<ToggleViewModel>()
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
 
@@ -57,6 +63,6 @@ fun ToggleScreenComposition(paddingValues: PaddingValues) {
                 coroutineScope.launch { bottomState.hide() }
             }
         }) {
-        Content(coroutineScope, bottomState)
+        Content(vm.featureToggle, coroutineScope, bottomState)
     }
 }
