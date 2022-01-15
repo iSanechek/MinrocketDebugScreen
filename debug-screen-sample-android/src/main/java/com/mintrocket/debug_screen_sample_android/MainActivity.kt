@@ -10,7 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.mintrocket.debug_screen_module.DebugScreenHelper
+import com.mintrocket.debug_screen_module.helpers.DebugScreenHelper
+import com.mintrocket.debug_screen_module.ui.DebugScreenActivity
 import com.mintrocket.debug_screen_sample_android.ui.theme.DebugScreenTheme
 
 class MainActivity : ComponentActivity() {
