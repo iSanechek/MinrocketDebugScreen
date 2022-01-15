@@ -62,7 +62,7 @@ dependencies {
     implementation("androidx.compose.material:material:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.material:material-icons-extended:${rootProject.extra["compose_version"]}")
     implementation("androidx.compose.animation:animation:${rootProject.extra["compose_version"]}")
-    implementation("androidx.compose.ui:ui-tooling:1.1.0-rc01")
+    implementation("androidx.compose.ui:ui-tooling:1.2.0-alpha01")
 
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
