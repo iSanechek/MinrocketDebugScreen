@@ -8,6 +8,8 @@ import com.mintrocket.debugscreen.data.feature_toggling.provider.impl.FeatureCon
 import com.mintrocket.debugscreen.data.feature_toggling.repository.remote.RemoteFeaturesRepository
 import com.mintrocket.debugscreen.data.feature_toggling.repository.remote.impl.RemoteFeaturesRepositoryImpl
 import com.mintrocket.debugscreen.data.feature_toggling.repository.state.FeaturesStateRepository
+import com.mintrocket.debugscreen.data.feature_toggling.repository.state.TestRepo
+import com.mintrocket.debugscreen.data.feature_toggling.repository.state.TestRepoImpl
 import com.mintrocket.debugscreen.data.feature_toggling.repository.state.impl.ReleaseFeaturesStateRepositoryImpl
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -20,7 +22,7 @@ val toggleModule = module {
     single { LocalFeatures(get()) }
     single { RemoteFeatures(get()) }
 
-    single<FeatureConfigsProvider> { FeatureConfigsProviderImpl(get(), get(), get()) }
+    single<FeatureConfigsProvider> { FeatureConfigsProviderImpl(get(), get(), get(named("DEBUG_FEATURE_CONFIG_REPOSITORY"))) }
 
     single<RemoteFeaturesRepository> {
         RemoteFeaturesRepositoryImpl(get())
@@ -29,5 +31,4 @@ val toggleModule = module {
     single<FeaturesStateRepository>(RELEASE_FEATURE_CONFIG_REPOSITORY) {
         ReleaseFeaturesStateRepositoryImpl()
     }
-
 }

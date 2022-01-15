@@ -17,13 +17,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mintrocket.debug_screen_module.R
+import com.mintrocket.debugscreen.data.feature_toggling.FeatureEnabledState
+import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
 
 @Composable
-private fun IconStateBox() {
+private fun IconStateBox(state: FeatureEnabledState, enable: Boolean) {
+    val colorBg = if (enable) Color.Green else when(state) {
+        FeatureEnabledState.DEFAULT -> Color.LightGray
+        FeatureEnabledState.DISABLED -> Color.Red
+        FeatureEnabledState.ENABLED -> Color.Green
+    }
     Card(
         modifier = Modifier
             .size(60.dp),
-        backgroundColor = Color.Green,
+        backgroundColor = colorBg,
         shape = RoundedCornerShape(16.dp)
     ) {
         Icon(
@@ -35,7 +42,7 @@ private fun IconStateBox() {
 }
 
 @Composable
-private fun TitleAndSubtitleBox(modifier: Modifier) {
+private fun TitleAndSubtitleBox(modifier: Modifier, name: String, enable: Boolean) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -44,27 +51,33 @@ private fun TitleAndSubtitleBox(modifier: Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Feature name Feature name Feature name Feature name Feature name",
+            text = name,
             style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
         )
-        Text(text = "Disable")
+        val stateText = if (enable) "Enable" else "Disable"
+        val textColor = if (enable) Color.Green else Color.Red
+        Text(text = "Local state $stateText", color = textColor)
     }
 }
 
 @Composable
-fun ToggleListItemComposition(onClick: () -> Unit) {
+fun ToggleListItemComposition(featureToggle: ItemDebugFeatureToggle, onClick: (ItemDebugFeatureToggle) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(90.dp)
             .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 2.dp)
-            .clickable { onClick.invoke() },
+            .clickable { onClick.invoke(featureToggle) },
         elevation = 2.dp
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            TitleAndSubtitleBox(modifier = Modifier.weight(1f))
+            TitleAndSubtitleBox(
+                modifier = Modifier.weight(1f),
+                name = featureToggle.name,
+                enable = featureToggle.featureLocalEnabled
+            )
             Spacer(modifier = Modifier.width(16.dp))
-            IconStateBox()
+            IconStateBox(featureToggle.featureState, featureToggle.featureLocalEnabled)
             Spacer(modifier = Modifier.width(16.dp))
         }
     }
@@ -73,7 +86,14 @@ fun ToggleListItemComposition(onClick: () -> Unit) {
 @Preview
 @Composable
 fun PreviewToggleListItemComposition() {
-    ToggleListItemComposition {
-
+    ToggleListItemComposition(
+        ItemDebugFeatureToggle(
+            name = "Boom",
+            key = "boom",
+            featureLocalEnabled = true,
+            featureState = FeatureEnabledState.DEFAULT
+        )
+    ) {
+        // no op
     }
 }

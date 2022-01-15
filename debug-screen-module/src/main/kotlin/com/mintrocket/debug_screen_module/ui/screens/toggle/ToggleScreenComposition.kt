@@ -7,12 +7,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 private fun Toolbar() {
@@ -23,28 +25,15 @@ private fun Toolbar() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun Content(coroutineScope: CoroutineScope, bottomState: ModalBottomSheetState) {
-    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        Toolbar()
-    }) {
-        val testItems = listOf(1, 2, 3, 4, 5)
-        LazyColumn(modifier = Modifier
-            .fillMaxSize()
-            .padding(it), content = {
-            items(testItems) {
-                ToggleListItemComposition {
-                    coroutineScope.launch { bottomState.show() }
-                }
-            }
-        })
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
 fun ToggleScreenComposition(paddingValues: PaddingValues) {
+    val vm = getViewModel<ToggleViewModel>()
     val bottomState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
+
+    // re-write later
+    var model by remember {
+        mutableStateOf<ItemDebugFeatureToggle?>(null)
+    }
 
     ModalBottomSheetLayout(
         modifier = Modifier
@@ -53,10 +42,24 @@ fun ToggleScreenComposition(paddingValues: PaddingValues) {
         sheetState = bottomState,
         sheetShape = RoundedCornerShape(16.dp),
         sheetContent = {
-            ToggleBottomSheetComposition {
+            ToggleBottomSheetComposition(model) {
                 coroutineScope.launch { bottomState.hide() }
             }
         }) {
-        Content(coroutineScope, bottomState)
+        val data = vm.featureToggle.collectAsState()
+        Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+            Toolbar()
+        }) {
+            LazyColumn(modifier = Modifier
+                .fillMaxSize()
+                .padding(it), content = {
+                items(data.value) { feature ->
+                    ToggleListItemComposition(feature) {
+                        model = feature
+                        coroutineScope.launch { bottomState.show() }
+                    }
+                }
+            })
+        }
     }
 }
