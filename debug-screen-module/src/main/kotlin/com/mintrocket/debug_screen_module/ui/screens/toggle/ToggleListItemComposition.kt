@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mintrocket.debug_screen_module.R
-import com.mintrocket.debugscreen.data.feature_toggling.FeatureEnabledState
-import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
+import com.mintrocket.featuretoggle.data.feature_toggling.FeatureEnabledState
+import com.mintrocket.featuretoggle.data.feature_toggling.ItemDebugFeatureToggle
 
 @Composable
 private fun IconStateBox(state: FeatureEnabledState, enable: Boolean) {

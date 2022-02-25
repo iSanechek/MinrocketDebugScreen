@@ -46,9 +46,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":debug-shared-module"))
-    implementation(project(":modo-render-android-compose"))
-    implementation(project(":android-compose"))
+    implementation(project(":modo-android-compose"))
+    api(project(":feature-toggle-shared-module"))
+
+    // for test
+//    api(Libs.Koin.core)
 
     Libs.screenLibs.forEach(::implementation)
 

@@ -7,8 +7,7 @@ pluginManagement {
 }
 
 rootProject.name = "DebugScreen"
-include(":debug-shared-module")
+include(":feature-toggle-shared-module")
 include(":debug-screen-module")
-include(":debug-screen-sample-android")
-include(":modo-render-android-compose")
-include(":android-compose")
+include(":android-sample")
+include(":modo-android-compose")

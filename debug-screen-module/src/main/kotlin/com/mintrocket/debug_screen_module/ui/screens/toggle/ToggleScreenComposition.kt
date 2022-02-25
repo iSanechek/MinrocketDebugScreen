@@ -10,9 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mintrocket.debugscreen.data.feature_toggling.ItemDebugFeatureToggle
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
+import com.mintrocket.featuretoggle.data.feature_toggling.ItemDebugFeatureToggle
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 

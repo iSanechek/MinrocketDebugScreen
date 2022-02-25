@@ -21,7 +21,9 @@ class DebugScreenHelper(
         private const val PENDING_INTENT_CODE = 2334
     }
 
+
     fun showDebugNotificationIfRequired(context: Context) {
+
         if (!debugScreenEnabled) return
         val notificationManager = NotificationManagerCompat.from(context)
         createChannel(notificationManager)
